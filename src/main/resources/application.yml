@@ -21,4 +21,12 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+---
+spring:
+  profiles: mongo
+  data:
+    mongodb:
+      port: 27017
+      database: notice
+      host: localhost
 

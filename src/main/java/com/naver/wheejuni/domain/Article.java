@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 @Data
 @Builder
-public class Article {
+public class Article extends BaseEntity{
 
     @Id
     @GeneratedValue

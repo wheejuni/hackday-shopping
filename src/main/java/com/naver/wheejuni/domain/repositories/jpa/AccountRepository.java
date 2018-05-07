@@ -1,4 +1,4 @@
-package com.naver.wheejuni.domain.repositories;
+package com.naver.wheejuni.domain.repositories.jpa;
 
 import com.naver.wheejuni.domain.Account;
 import org.springframework.data.repository.CrudRepository;
