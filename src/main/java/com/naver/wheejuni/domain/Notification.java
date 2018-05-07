@@ -1,10 +1,17 @@
 package com.naver.wheejuni.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import com.naver.wheejuni.domain.events.article.ArticleEvent;
+import lombok.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder
 public class Notification {
+
+    @JsonProperty("NOTIFICATION_ID")
+    private long id;
 
     @JsonProperty("NOTIFICATION_ARTICLE_TITLE")
     private String title;
@@ -14,6 +21,15 @@ public class Notification {
 
     @JsonProperty("READ")
     private boolean read;
+
+    public static Notification fromArticleEvent(ArticleEvent event, long generatedId) {
+        return Notification.builder()
+                .id(generatedId)
+                .title(event.getTitle())
+                .types(event.getNotificationTypes())
+                .read(false)
+                .build();
+    }
 
     @JsonProperty("message")
     public String getNotificationMessage() {
@@ -27,6 +43,10 @@ public class Notification {
 
     public boolean isMatchingTitle(String title) {
         return title.equals(this.title);
+    }
+
+    public boolean isMatchingId(Long id) {
+        return id.equals(this.id);
     }
 
     public void setRead() {

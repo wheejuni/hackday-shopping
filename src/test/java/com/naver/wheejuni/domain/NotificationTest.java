@@ -24,6 +24,7 @@ public class NotificationTest {
 
     @Test
     public void notification_returnCaptionAsMapped() {
+        log.debug("{}", this.notification.getId());
         String caption = this.notification.getNotificationMessage();
 
         assertThat(caption, is(INTENDED_MESSAGE_CREATED));
