@@ -21,6 +21,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+fileupload:
+  rootdir: /Users/wheejuni/Documents/testfiles
+
 ---
 spring:
   profiles: mongo

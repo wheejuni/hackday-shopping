@@ -3,6 +3,7 @@ package com.naver.wheejuni.service.specification;
 import com.naver.wheejuni.domain.Notification;
 import com.naver.wheejuni.domain.UserNotificationInbox;
 import com.naver.wheejuni.domain.repositories.mongo.UserNotificationInboxRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,9 @@ import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.notNull;
 
+@Slf4j
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class NotificationServiceTest {
@@ -48,6 +51,11 @@ public class NotificationServiceTest {
         notificationService.setNotificationsRead(1L, Arrays.asList(1L));
 
         assertThat(repository.findById(1L).block().getUnreadNotificationsCount(), is(0L));
+    }
+
+    @Test
+    public void notificationService_notifyWithDelay() {
+//        assertThat(notificationService.getNotificationEvent(1L).getId(), is(1L));
     }
 
     @Bean

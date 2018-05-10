@@ -1,5 +1,8 @@
 package com.naver.wheejuni.domain;
 
+import com.naver.wheejuni.dto.UserJoinRequest;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
 public class Account {
 
@@ -28,4 +32,14 @@ public class Account {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
+    private Account(String userId, String password, Set<UserGroups> userGroups, UserRole role) {
+        this.userId = userId;
+        this.password = password;
+        this.userGroups = userGroups;
+        this.role = role;
+    }
+
+    public static Account fromRequest(UserJoinRequest req) {
+        return new Account(req.getId(), req.getPassword(), UserGroups.findMatchingGroups(req.getGroups()), UserRole.USER);
+    }
 }

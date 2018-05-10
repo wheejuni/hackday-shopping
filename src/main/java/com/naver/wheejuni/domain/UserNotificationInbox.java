@@ -3,7 +3,10 @@ package com.naver.wheejuni.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
@@ -12,11 +15,15 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Document
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserNotificationInbox {
 
     @Id
     private long id;
+
+    private String name;
 
     private Set<UserGroups> listeningGroups = Sets.newHashSet();
     private List<Notification> notifications = Lists.newArrayList();
@@ -25,9 +32,40 @@ public class UserNotificationInbox {
         return targetGroups.stream().anyMatch(g -> this.listeningGroups.contains(g));
     }
 
-    @JsonProperty("new")
     public long getUnreadNotificationsCount() {
         return this.notifications.stream().filter(n -> !n.isRead()).count();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public Set<UserGroups> getListeningGroups() {
+        return listeningGroups;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public String getName() {
+        if(this.name == null) {
+            return "hello mongo";
+        }
+
+        return this.name;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setListeningGroups(Set<UserGroups> listeningGroups) {
+        this.listeningGroups = listeningGroups;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public UserNotificationInbox addNotification(Notification notification) {

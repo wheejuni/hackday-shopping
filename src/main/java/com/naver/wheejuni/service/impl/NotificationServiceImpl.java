@@ -41,4 +41,10 @@ public class NotificationServiceImpl implements NotificationService {
 
         repository.save(inbox).subscribe();
     }
+
+    @Override
+    public Flux<UserNotificationInbox> getNotificationEvent(long accountId) {
+        //TODO Continuously fetch user inbox from repo, and zip into flux
+        return null;
+    }
 }
