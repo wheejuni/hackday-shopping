@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -39,7 +40,12 @@ public class Account {
         this.role = role;
     }
 
-    public static Account fromRequest(UserJoinRequest req) {
-        return new Account(req.getId(), req.getPassword(), UserGroups.findMatchingGroups(req.getGroups()), UserRole.USER);
+    public boolean isCorrectPassword(String password, PasswordEncoder encoder) {
+        return encoder.matches(this.password, password);
     }
+
+    public static Account fromRequest(UserJoinRequest req, PasswordEncoder passwordEncoder) {
+        return new Account(req.getId(), passwordEncoder.encode(req.getPassword()), UserGroups.findMatchingGroups(req.getGroups()), UserRole.USER);
+    }
+
 }

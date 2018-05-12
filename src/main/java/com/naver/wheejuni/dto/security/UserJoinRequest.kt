@@ -2,6 +2,7 @@ package com.naver.wheejuni.dto.security
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.naver.wheejuni.domain.Account
+import org.springframework.security.crypto.password.PasswordEncoder
 
 data class UserJoinRequest(
 
@@ -14,7 +15,7 @@ data class UserJoinRequest(
         @field:JsonProperty("selectedGroups")
         val groups: MutableSet<String>? = null) {
 
-    fun toModel(): Account {
-        return Account.fromRequest(this)
+    fun toModel(passwordEncoder: PasswordEncoder): Account {
+        return Account.fromRequest(this, passwordEncoder)
     }
 }

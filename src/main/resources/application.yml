@@ -24,6 +24,9 @@ spring:
 fileupload:
   rootdir: /Users/wheejuni/Documents/testfiles
 
+jwt:
+  signingkey: naver-hackday
+
 ---
 spring:
   profiles: mongo

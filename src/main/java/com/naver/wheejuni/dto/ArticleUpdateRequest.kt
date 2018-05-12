@@ -18,5 +18,4 @@ data class ArticleUpdateRequest(
         val content: String? = null,
 
         @field:JsonProperty("attachedFile")
-        val file: MutableList<FileUploadResult>? = null
-)
+        val file: MutableList<FileUploadResult>? = null)
