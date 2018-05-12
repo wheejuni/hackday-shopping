@@ -1,4 +1,4 @@
-package com.naver.wheejuni.dto
+package com.naver.wheejuni.dto.security
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.naver.wheejuni.domain.Account

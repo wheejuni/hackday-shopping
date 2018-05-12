@@ -1,6 +1,6 @@
 package com.naver.wheejuni.domain;
 
-import com.naver.wheejuni.dto.UserJoinRequest;
+import com.naver.wheejuni.dto.security.UserJoinRequest;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

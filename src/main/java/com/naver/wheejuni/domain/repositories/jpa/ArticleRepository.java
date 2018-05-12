@@ -1,7 +1,18 @@
 package com.naver.wheejuni.domain.repositories.jpa;
 
 import com.naver.wheejuni.domain.Article;
+import com.naver.wheejuni.domain.UserGroups;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
-public interface ArticleRepository extends CrudRepository<Article, Long> {
+import java.util.List;
+import java.util.Set;
+
+public interface ArticleRepository extends JpaRepository<Article, Long> {
+
+    List<Article> findByUserGroupsIn(Set<UserGroups> groups);
+
+    Page<Article> findByUserGroupsIn(Set<UserGroups> groups, Pageable pageable);
 }

@@ -14,6 +14,6 @@ public class FiletypeValidator implements ConstraintValidator<EligibleFileTypes,
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return false;
+        return true;
     }
 }
