@@ -1,5 +1,6 @@
 package com.naver.wheejuni.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +34,11 @@ public class FileTest {
     @Test
     public void file_beanValidation() {
         validator.validate(this.file).stream().forEach(c -> log.debug(c.getMessage()));
+    }
+
+    @Test
+    public void file_Serialization() throws Exception {
+        log.error(new ObjectMapper().writeValueAsString(this.file));
     }
 
 }

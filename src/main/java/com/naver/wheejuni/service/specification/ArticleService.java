@@ -2,8 +2,10 @@ package com.naver.wheejuni.service.specification;
 
 import com.naver.wheejuni.domain.Article;
 import com.naver.wheejuni.domain.UserGroups;
-import com.naver.wheejuni.dto.ArticleUpdateRequest;
-import com.naver.wheejuni.dto.NewArticleDto;
+import com.naver.wheejuni.dto.article.ArticleListRequest;
+import com.naver.wheejuni.dto.article.ArticleUpdateRequest;
+import com.naver.wheejuni.dto.article.NewArticleDto;
+import com.naver.wheejuni.dto.article.PagedArticles;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +22,8 @@ public interface ArticleService {
     List<Article> getByTargetGroups(Set<UserGroups> targetGroups);
 
     Page<Article> getByTargetGroupsPaged(Set<UserGroups> targetGroups, Pageable pageable);
+
+    Article getByArticleId(long id);
+
+    PagedArticles getPagedArticle(ArticleListRequest request, Set<UserGroups> userGroups);
 }

@@ -27,6 +27,9 @@ fileupload:
 jwt:
   signingkey: naver-hackday
 
+article:
+  root: http://localhost:3000/articles/
+
 ---
 spring:
   profiles: mongo

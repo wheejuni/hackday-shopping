@@ -1,7 +1,9 @@
 package com.naver.wheejuni.domain;
 
-import com.naver.wheejuni.dto.ArticleUpdateRequest;
-import com.naver.wheejuni.dto.NewArticleDto;
+import com.google.common.collect.Lists;
+import com.naver.wheejuni.dto.article.ArticleUpdateRequest;
+import com.naver.wheejuni.dto.article.NewArticleDto;
+import com.naver.wheejuni.dto.fileupload.FileUploadResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +32,7 @@ public class Article extends BaseEntity{
     private String content;
 
     @Column(name = "ARTICLE_FILEID")
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<File> files;
 
     @ElementCollection(targetClass = UserGroups.class)
@@ -45,13 +47,20 @@ public class Article extends BaseEntity{
         return this;
     }
 
-
     public static Article fromDto(NewArticleDto dto) {
         return Article.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .userGroups(dto.getGroups())
+                .files(mapRequestToFiles(dto))
                 .build();
+    }
+
+    private static List<File> mapRequestToFiles(NewArticleDto dto) {
+        if(dto.getFile() == null) {
+            return Lists.newArrayList();
+        }
+        return dto.getFile().stream().map(FileUploadResult::toModel).collect(Collectors.toList());
     }
 
 }

@@ -1,8 +1,8 @@
-package com.naver.wheejuni.dto
+package com.naver.wheejuni.dto.article
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.naver.wheejuni.domain.File
 import com.naver.wheejuni.domain.UserGroups
+import com.naver.wheejuni.dto.fileupload.FileUploadResult
 
 data class NewArticleDto(
 
@@ -16,5 +16,4 @@ data class NewArticleDto(
         val groups: MutableSet<UserGroups>? = null,
 
         @field:JsonProperty("fileHref")
-        val file: File? = null
-)
+        val file: MutableSet<FileUploadResult>? = null)

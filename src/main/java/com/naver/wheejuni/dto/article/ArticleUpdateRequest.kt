@@ -1,6 +1,7 @@
-package com.naver.wheejuni.dto
+package com.naver.wheejuni.dto.article
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.naver.wheejuni.dto.UpdateRequestTypes
 import com.naver.wheejuni.dto.fileupload.FileUploadResult
 
 data class ArticleUpdateRequest(
