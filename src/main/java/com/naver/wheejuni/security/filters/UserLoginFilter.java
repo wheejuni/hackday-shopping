@@ -39,7 +39,7 @@ public class UserLoginFilter extends AbstractAuthenticationProcessingFilter {
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         PostAuthorizeToken token = (PostAuthorizeToken)authResult;
 
-
+        handler.onAuthenticationSuccess(req, res, token);
     }
 
     @Override

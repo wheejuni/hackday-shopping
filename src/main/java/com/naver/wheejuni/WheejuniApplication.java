@@ -2,8 +2,8 @@ package com.naver.wheejuni;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
-import com.naver.wheejuni.domain.Article;
-import com.naver.wheejuni.domain.UserNotificationInbox;
+import com.naver.wheejuni.domain.*;
+import com.naver.wheejuni.domain.repositories.jpa.AccountRepository;
 import com.naver.wheejuni.domain.repositories.jpa.ArticleRepository;
 import com.naver.wheejuni.domain.repositories.mongo.UserNotificationInboxRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -17,11 +17,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import reactor.core.publisher.Flux;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SpringBootApplication
 @EnableJpaAuditing
@@ -44,6 +49,23 @@ public class WheejuniApplication {
 
 			inboxRepository.deleteAll().thenMany(Flux.just(inbox).flatMap(inboxRepository::save)).subscribe(System.out::println);
 
+		};
+	}
+
+	@Bean
+	CommandLineRunner bootStrapAccounts(AccountRepository repository, PasswordEncoder passwordEncoder) {
+		return (String... args) -> {
+			String encodedPassword = passwordEncoder.encode("1234");
+			System.out.println(encodedPassword);
+            Account account = Account.builder()
+                    .role(UserRole.USER)
+                    .password(encodedPassword)
+                    .userId("emalyun@naver.com")
+                    .name("이말년")
+                    .userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet()))
+                    .build();
+
+			repository.save(account);
 		};
 	}
 
