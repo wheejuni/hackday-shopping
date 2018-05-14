@@ -23,6 +23,7 @@ public class Article extends BaseEntity{
 
     @Id
     @GeneratedValue
+    @Column(name = "ARTICLE_ID")
     private long id;
 
     @Column(name = "ARTICLE_TITLE")
@@ -33,7 +34,12 @@ public class Article extends BaseEntity{
 
     @Column(name = "ARTICLE_FILEID")
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "FILES", joinColumns = @JoinColumn(name = "ARTICLE_ID"))
     private List<File> files;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "AUTHOR_ACC_ID")
+    private Account account;
 
     @ElementCollection(targetClass = UserGroups.class)
     @Enumerated(value = EnumType.STRING)
@@ -47,11 +53,35 @@ public class Article extends BaseEntity{
         return this;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public Set<UserGroups> getUserGroups() {
+        return userGroups;
+    }
+
     public static Article fromDto(NewArticleDto dto) {
         return Article.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .userGroups(dto.getGroups())
+                .userGroups(UserGroups.findMatchingGroupSingle(dto.getGroups()))
                 .files(mapRequestToFiles(dto))
                 .build();
     }

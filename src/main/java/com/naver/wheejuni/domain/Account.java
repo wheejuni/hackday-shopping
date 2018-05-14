@@ -1,15 +1,19 @@
 package com.naver.wheejuni.domain;
 
+import com.google.common.collect.Lists;
 import com.naver.wheejuni.dto.security.UserJoinRequest;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = "articles")
+@ToString(exclude = "articles")
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
@@ -27,6 +31,9 @@ public class Account {
     private String name;
 
     private String password;
+
+    @OneToMany(mappedBy = "account")
+    private List<Article> articles = Lists.newArrayList();
 
     @ElementCollection(targetClass = UserGroups.class, fetch = FetchType.EAGER)
     @Enumerated(value = EnumType.STRING)

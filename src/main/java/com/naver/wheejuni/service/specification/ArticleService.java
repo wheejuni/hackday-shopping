@@ -15,7 +15,7 @@ import java.util.Set;
 
 public interface ArticleService {
 
-    void saveNewArticle(NewArticleDto dto);
+    Article saveNewArticle(NewArticleDto dto);
 
     Optional<Article> updateArticle(ArticleUpdateRequest request);
 

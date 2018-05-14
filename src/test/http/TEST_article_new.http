@@ -1,0 +1,6 @@
+POST http://localhost:8080/api/v1/article
+Content-Type: application/json;utf8
+
+{"title": "과연 될까요?", "content": "으흠. 이게 왜 안되는건지.....", "targetGroups": "C_GROUP", "fileHref": [{"originalFileName": "printboard-cicd-cred.csv", "encodedFileName": "/Users/wheejuni/Documents/testfiles/b37e0793-f051-45d1-b5bc-5bf325b0ff88.csv"}]}
+
+###

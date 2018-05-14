@@ -15,9 +15,7 @@ import java.io.Serializable;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public class File implements Serializable {
 
-    @EligibleFileTypes
     private String path;
-
     private String storeFilePath;
 
     public File(String path, String storeFilePath) {

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import reactor.core.publisher.Flux;
@@ -24,6 +25,7 @@ import static org.mockito.ArgumentMatchers.notNull;
 @Slf4j
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@ActiveProfiles("local-dev")
 public class NotificationServiceTest {
 
     @Autowired

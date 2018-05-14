@@ -14,8 +14,8 @@ import java.util.Set;
 public enum UserGroups {
 
     A_GROUP("A", "공지사항 등록만 해도 대박터지는 A그룹"),
-    B_GROUP("B", "백종원이 직접 레시피를 전달해드려요! 식품유통업 사장님들을 위한 B그룹"),
-    C_GROUP("C", "리누스 토발즈도 울고갈 신박한 소프트웨어들! IT/소프트웨어 분야 사장님들을 위한 C그룹");
+    B_GROUP("B", "공지사항 읽기만해도 클릭이 쏟아지는 B그룹"),
+    C_GROUP("C", "공지사항 수정 안해도 처음부터 잘 써지는 C그룹");
 
 
     private String symbol;
@@ -32,6 +32,13 @@ public enum UserGroups {
 
     public String getType() {
         return this.name();
+    }
+
+    public static Set<UserGroups> findMatchingGroupSingle(String query) {
+        Set<UserGroups> returnGroup = Sets.newHashSet();
+        Arrays.stream(UserGroups.values()).filter(g -> g.isCorrectName(query)).forEach(returnGroup::add);
+
+        return returnGroup;
     }
 
     public static Set<UserGroups> findMatchingGroups(Set<String> queries) {

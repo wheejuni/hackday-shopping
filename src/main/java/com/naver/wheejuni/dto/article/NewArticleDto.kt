@@ -13,7 +13,7 @@ data class NewArticleDto(
         val content: String? = null,
 
         @field:JsonProperty("targetGroups")
-        val groups: MutableSet<UserGroups>? = null,
+        val groups: String? = null,
 
         @field:JsonProperty("fileHref")
         val file: MutableSet<FileUploadResult>? = null)

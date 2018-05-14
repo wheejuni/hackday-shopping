@@ -1,4 +1,8 @@
 spring:
+  profiles:
+    active: local-dev
+---
+spring:
   profiles: local-dev
   data:
       mongodb:
@@ -29,6 +33,9 @@ jwt:
 
 article:
   root: http://localhost:3000/articles/
+
+crossorigin:
+  front-uri: http://localhost:3000
 
 ---
 spring:

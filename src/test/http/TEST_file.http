@@ -1,0 +1,10 @@
+POST http://localhost:8080/api/upload/file
+Content-Type: multipart/form-data; boundary="fileupload"
+
+--fileupload
+Content-Disposition: form-data; name="files"; filename="hackathon-instance-access.csv"
+
+< /Users/wheejuni/Desktop/hackathon-instance-access.csv
+--fileupload
+
+###

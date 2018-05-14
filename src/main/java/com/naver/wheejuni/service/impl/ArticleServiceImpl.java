@@ -30,8 +30,8 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleRepository repository;
 
     @Override
-    public void saveNewArticle(NewArticleDto dto) {
-        repository.save(Article.fromDto(dto));
+    public Article saveNewArticle(NewArticleDto dto) {
+        return repository.save(Article.fromDto(dto));
     }
 
     @Override

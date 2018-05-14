@@ -13,7 +13,8 @@ public enum SupportedFileTypes {
     XLSX("xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
     CSV("csv", "text/csv"),
     TSV("tsv", "text/tsv"),
-    TXT("txt", "text/plain");
+    TXT("txt", "text/plain"),
+    PNG("png", "image/png");
 
     private String extension;
     private String mimeType;
