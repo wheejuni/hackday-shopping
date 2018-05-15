@@ -32,21 +32,21 @@ public class DecodedJwtDetails implements JwtDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
     @Override
     public Set<UserGroups> getUserGroups() {
-        return null;
+        return this.userGroups;
     }
 
     @Override
     public List<UserRole> getRoles() {
-        return null;
+        return this.roles;
     }
 
     @Override
     public long getUserid() {
-        return 0;
+        return this.userId;
     }
 }

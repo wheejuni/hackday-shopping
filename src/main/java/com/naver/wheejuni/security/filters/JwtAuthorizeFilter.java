@@ -21,16 +21,14 @@ import java.io.IOException;
 public class JwtAuthorizeFilter extends AbstractAuthenticationProcessingFilter {
 
     private TokenExtractor tokenExtractor;
-    private AuthenticationFailureHandler failureHandler;
 
     private JwtAuthorizeFilter(RequestMatcher matcher) {
         super(matcher);
     }
 
-    public JwtAuthorizeFilter(RequestMatcher requiresAuthenticationRequestMatcher, TokenExtractor tokenExtractor, AuthenticationFailureHandler failureHandler) {
+    public JwtAuthorizeFilter(RequestMatcher requiresAuthenticationRequestMatcher, TokenExtractor tokenExtractor) {
         super(requiresAuthenticationRequestMatcher);
         this.tokenExtractor = tokenExtractor;
-        this.failureHandler = failureHandler;
     }
 
     @Override

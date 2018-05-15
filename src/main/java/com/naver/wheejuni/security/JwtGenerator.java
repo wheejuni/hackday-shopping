@@ -44,6 +44,6 @@ public class JwtGenerator {
     }
 
     private List<String> convertGroupToString(Set<UserGroups> groups) {
-        return groups.stream().map(g -> g.getSymbol()).collect(Collectors.toList());
+        return groups.stream().map(g -> g.name()).collect(Collectors.toList());
     }
 }

@@ -1,7 +1,10 @@
 package com.naver.wheejuni.security;
 
+import com.naver.wheejuni.security.filters.FilterSkipMatcher;
+import com.naver.wheejuni.security.filters.JwtAuthorizeFilter;
 import com.naver.wheejuni.security.filters.UserLoginFilter;
 import com.naver.wheejuni.security.handlers.LoginSuccessHandler;
+import com.naver.wheejuni.security.providers.JwtAuthenticationProvider;
 import com.naver.wheejuni.security.providers.UserLoginProvider;
 import io.netty.handler.codec.http.cors.CorsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +21,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -40,7 +47,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserLoginProvider userLoginProvider;
 
     @Autowired
+    private JwtAuthenticationProvider jwtAuthenticationProvider;
+
+    @Autowired
     private LoginSuccessHandler loginSuccessHandler;
+
+    @Autowired
+    private TokenExtractor tokenExtractor;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -55,7 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .authenticationProvider(this.userLoginProvider);
+                .authenticationProvider(this.userLoginProvider)
+                .authenticationProvider(this.jwtAuthenticationProvider);
     }
 
     @Override
@@ -70,12 +84,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable();
 
         http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http
                 .authorizeRequests()
-                .antMatchers("/api**").permitAll()
                 .antMatchers("/h2-console**").permitAll();
 
         http
-                .addFilterBefore(userLoginFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(userLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthorizeFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
@@ -95,10 +113,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return bean;
     }
 
-    private UserLoginFilter userLoginFilter() throws Exception {
+    protected UserLoginFilter userLoginFilter() throws Exception {
         UserLoginFilter filter = new UserLoginFilter("/login", this.loginSuccessHandler);
         filter.setAuthenticationManager(authenticationManager());
 
         return filter;
     }
+
+    protected JwtAuthorizeFilter jwtAuthorizeFilter() throws Exception {
+        FilterSkipMatcher matcher = new FilterSkipMatcher(Arrays.asList("/login"), "/api/**");
+        JwtAuthorizeFilter filter = new JwtAuthorizeFilter(matcher, tokenExtractor);
+        filter.setAuthenticationManager(super.authenticationManagerBean());
+
+        return filter;
+    }
+
+
 }
