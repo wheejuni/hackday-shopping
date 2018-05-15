@@ -6,6 +6,7 @@ import com.naver.wheejuni.dto.fileupload.FileUploadResult;
 import com.naver.wheejuni.exceptions.file.FileProcessingException;
 import com.naver.wheejuni.exceptions.file.NotSupportedFiletypeException;
 import com.naver.wheejuni.service.specification.FileService;
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -25,21 +26,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public FileUploadResult uploadFile(MultipartFile file) throws FileProcessingException {
-        String generatedFilename;
-
         if(isValidFiletype(file)) {
-            try{
-                generatedFilename = generateFile(file);
-                File targetFile = new File(generatedFilename);
-                if (targetFile.exists()){
-                    throw new RuntimeException("이미 존재하는 파일!");
-                }
-                targetFile.createNewFile();
-                Files.write(file.getBytes(), targetFile);
-            } catch (IOException e) {
-                throw new FileProcessingException("파일 처리중 에러가 발생했습니다.", e);
-            }
-            return new FileUploadResult(file.getOriginalFilename(), generatedFilename);
+            return writeFile(file);
         }
         log.error("this file type is not supported.");
         throw new NotSupportedFiletypeException("지원하는 파일 형식이 아닙니다.");
@@ -47,24 +35,28 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public FileUploadResult uploadImage(MultipartFile image) throws FileProcessingException {
-        String generatedFilename;
-
         if(FilenameUtils.getExtension(image.getOriginalFilename()).equalsIgnoreCase("png")) {
-            try{
-                generatedFilename = generateFile(image);
-                File targetFile = new File(generatedFilename);
-                if (targetFile.exists()) {
-                    throw new RuntimeException("이미 존재하는 파일!");
-                }
-                targetFile.createNewFile();
-                Files.write(image.getBytes(), targetFile);
-                return new FileUploadResult(image.getOriginalFilename(), generatedFilename);
-            } catch (IOException e) {
-                throw new FileProcessingException("파일 처리중 에러가 발생하였습니다.", e);
-            }
+            return writeFile(image);
         }
         log.error("this file type is not supported.");
         throw new NotSupportedFiletypeException("파일 처리중 오류가 발생하였습니다.");
+    }
+
+    private FileUploadResult writeFile(MultipartFile file) {
+        String generatedFilename;
+        try{
+            generatedFilename = generateFile(file);
+            File targetFile = new File(generatedFilename);
+            if (targetFile.exists()) {
+                throw new RuntimeException("이미 존재하는 파일!");
+            }
+            targetFile.createNewFile();
+            Files.write(file.getBytes(), targetFile);
+            return new FileUploadResult(file.getOriginalFilename(), generatedFilename);
+        } catch (IOException e) {
+            throw new FileProcessingException("파일 처리중 에러가 발생하였습니다.", e);
+        }
+
     }
 
     private String generateFile(MultipartFile file) {

@@ -80,4 +80,13 @@ public class UserNotificationInbox {
         return this;
     }
 
+    public static UserNotificationInbox generateInbox(Account account) {
+        return UserNotificationInbox.builder()
+                .listeningGroups(account.getUserGroups())
+                .notifications(Lists.newArrayList())
+                .id(account.getId())
+                .name(account.getName())
+                .build();
+    }
+
 }

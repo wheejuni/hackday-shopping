@@ -41,7 +41,7 @@ public class Article extends BaseEntity{
     @JoinColumn(name = "AUTHOR_ACC_ID")
     private Account account;
 
-    @ElementCollection(targetClass = UserGroups.class)
+    @ElementCollection(targetClass = UserGroups.class, fetch = FetchType.EAGER)
     @Enumerated(value = EnumType.STRING)
     private Set<UserGroups> userGroups;
 
