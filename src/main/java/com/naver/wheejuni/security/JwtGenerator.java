@@ -31,6 +31,7 @@ public class JwtGenerator {
             convertGroupToString(account.getUserGroups()).toArray(stringifiedGroups);
 
             generatedToken = JWT.create()
+                    .withClaim("USERNAME", account.getName())
                     .withClaim("USER_ROLE", account.getRole().getRoleName())
                     .withClaim("USER_ID", account.getId())
                     .withArrayClaim("USER_TARGETGROUPS", stringifiedGroups)
