@@ -1,6 +1,7 @@
 package com.naver.wheejuni.domain;
 
 import com.google.common.collect.Lists;
+import com.naver.wheejuni.domain.events.article.NewArticleEvent;
 import com.naver.wheejuni.dto.article.ArticleUpdateRequest;
 import com.naver.wheejuni.dto.article.NewArticleDto;
 import com.naver.wheejuni.dto.article.SingleArticle;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.DomainEvents;
 
 import javax.persistence.*;
 import java.util.List;
@@ -80,6 +82,11 @@ public class Article extends BaseEntity{
 
     public Set<UserGroups> getUserGroups() {
         return userGroups;
+    }
+
+    @DomainEvents
+    NewArticleEvent sendEvent() {
+        return NewArticleEvent.ofArticle(this);
     }
 
     public static Article fromDto(NewArticleDto dto) {

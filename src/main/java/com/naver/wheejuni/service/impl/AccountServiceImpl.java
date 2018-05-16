@@ -27,7 +27,7 @@ public class AccountServiceImpl implements AccountService {
     public void joinNewAccount(UserJoinRequest request) {
         Account account = accountRepository.save(request.toModel(passwordEncoder));
 
-        inboxRepository.save(UserNotificationInbox.generateInbox(account)).subscribe();
+        inboxRepository.save(UserNotificationInbox.generateInbox(account));
     }
 
     @Override

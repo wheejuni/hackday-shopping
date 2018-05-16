@@ -1,12 +1,14 @@
 package com.naver.wheejuni.domain;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -16,19 +18,19 @@ import static org.junit.Assert.*;
 public class UserNotificationInboxTest {
 
     private UserNotificationInbox inbox;
-    private Set<UserGroups> testGroups;
+    private List<UserGroups> testGroups;
 
     @Before
     public void setUp() {
         this.inbox = new UserNotificationInbox();
-        Set<UserGroups> groups = Sets.newHashSet();
+        List<UserGroups> groups = Lists.newArrayList();
 
         groups.add(UserGroups.A_GROUP);
         groups.add(UserGroups.B_GROUP);
 
         this.inbox.setListeningGroups(groups);
 
-        this.testGroups = Sets.newHashSet();
+        this.testGroups = Lists.newArrayList();
         Flux.just(UserGroups.B_GROUP, UserGroups.C_GROUP).subscribe(g -> testGroups.add(g));
     }
 

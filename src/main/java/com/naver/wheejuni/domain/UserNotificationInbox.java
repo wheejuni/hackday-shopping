@@ -25,10 +25,10 @@ public class UserNotificationInbox {
 
     private String name;
 
-    private Set<UserGroups> listeningGroups = Sets.newHashSet();
+    private List<UserGroups> listeningGroups = Lists.newArrayList();
     private List<Notification> notifications = Lists.newArrayList();
 
-    public boolean isTargetInbox(Set<UserGroups> targetGroups) {
+    public boolean isTargetInbox(List<UserGroups> targetGroups) {
         return targetGroups.stream().anyMatch(g -> this.listeningGroups.contains(g));
     }
 
@@ -40,7 +40,7 @@ public class UserNotificationInbox {
         return id;
     }
 
-    public Set<UserGroups> getListeningGroups() {
+    public List<UserGroups> getListeningGroups() {
         return listeningGroups;
     }
 
@@ -60,7 +60,7 @@ public class UserNotificationInbox {
         this.id = id;
     }
 
-    public void setListeningGroups(Set<UserGroups> listeningGroups) {
+    public void setListeningGroups(List<UserGroups> listeningGroups) {
         this.listeningGroups = listeningGroups;
     }
 
@@ -82,11 +82,18 @@ public class UserNotificationInbox {
 
     public static UserNotificationInbox generateInbox(Account account) {
         return UserNotificationInbox.builder()
-                .listeningGroups(account.getUserGroups())
+                .listeningGroups(convertGroupsToList(account))
                 .notifications(Lists.newArrayList())
                 .id(account.getId())
                 .name(account.getName())
                 .build();
+    }
+
+    private static List<UserGroups> convertGroupsToList(Account account) {
+        List<UserGroups> groups = Lists.newArrayList();
+         account.getUserGroups().stream().forEach(groups::add);
+
+         return groups;
     }
 
 }

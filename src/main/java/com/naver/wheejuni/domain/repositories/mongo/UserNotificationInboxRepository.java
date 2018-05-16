@@ -2,17 +2,19 @@ package com.naver.wheejuni.domain.repositories.mongo;
 
 import com.naver.wheejuni.domain.UserGroups;
 import com.naver.wheejuni.domain.UserNotificationInbox;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Set;
 
-public interface UserNotificationInboxRepository extends ReactiveMongoRepository<UserNotificationInbox, Long> {
+public interface UserNotificationInboxRepository extends MongoRepository<UserNotificationInbox, Long> {
 
-    Mono<UserNotificationInbox> findById(long id);
+    UserNotificationInbox findById(long id);
 
     @Query(value = "{listeningGroups: {$in: ?0}}")
-    Flux<UserNotificationInbox> findByMatchingGroups(Set<UserGroups> groups);
+    List<UserNotificationInbox> findByMatchingGroups(Set<UserGroups> groups);
 }

@@ -17,7 +17,7 @@ data class NotificationDto(
         val id: Long? = null,
 
         @field:JsonProperty("groups")
-        val targetGroups: MutableSet<UserGroups>? = null,
+        val targetGroups: MutableList<UserGroups>? = null,
 
         @field:JsonProperty("new")
         val new: Long? = null,

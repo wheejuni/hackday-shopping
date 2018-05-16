@@ -44,7 +44,7 @@ public class NotificationServiceTest {
         notification.setId(1L);
 
         inbox.addNotification(notification);
-        repository.save(inbox).subscribe();
+        repository.save(inbox);
 
     }
 
@@ -52,7 +52,7 @@ public class NotificationServiceTest {
     public void notificationService_checkRead() {
         notificationService.setNotificationsRead(1L, Arrays.asList(1L));
 
-        assertThat(repository.findById(1L).block().getUnreadNotificationsCount(), is(0L));
+        assertThat(repository.findById(1L).getUnreadNotificationsCount(), is(0L));
     }
 
     @Test

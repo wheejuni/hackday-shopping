@@ -14,5 +14,4 @@ public interface NotificationService {
 
     void setNotificationsRead(long accountId, List<Long> notificationId);
 
-    Flux<UserNotificationInbox> getNotificationEvent(long accountId);
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,23 +29,16 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendNotification(NewArticleEvent event) {
         Notification notification = Notification.fromArticleEvent(event, uuidGenerator.generateUUID());
 
-        List<UserNotificationInbox> mappedInboxes = Lists.newArrayList();
-        repository.findAll().filter(i -> i.isTargetInbox(event.getTargetGroups())).map(i -> i.addNotification(notification)).subscribe(mappedInboxes::add);
-
-        repository.saveAll(mappedInboxes).subscribe();
+        List<UserNotificationInbox> processedInboxes = repository.findByMatchingGroups(event.getTargetGroups()).stream().map(inbox -> inbox.addNotification(notification)).collect(Collectors.toList());
+        repository.saveAll(processedInboxes);
     }
 
     @Override
     public void setNotificationsRead(long accountid, List<Long> notificationId) {
-        UserNotificationInbox inbox = repository.findById(accountid).block();
+        UserNotificationInbox inbox = repository.findById(accountid);
         inbox.setNotificationsRead(notificationId);
 
-        repository.save(inbox).subscribe();
+        repository.save(inbox);
     }
 
-    @Override
-    public Flux<UserNotificationInbox> getNotificationEvent(long accountId) {
-        //TODO Continuously fetch user inbox from repo, and zip into flux
-        return null;
-    }
 }
