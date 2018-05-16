@@ -3,6 +3,7 @@ package com.naver.wheejuni.domain;
 import com.google.common.collect.Lists;
 import com.naver.wheejuni.dto.article.ArticleUpdateRequest;
 import com.naver.wheejuni.dto.article.NewArticleDto;
+import com.naver.wheejuni.dto.article.SingleArticle;
 import com.naver.wheejuni.dto.fileupload.FileUploadResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +52,10 @@ public class Article extends BaseEntity{
         this.files = request.getFile().stream().map(r -> r.toModel()).collect(Collectors.toList());
 
         return this;
+    }
+
+    public SingleArticle toDto() {
+        return new SingleArticle(this.id, super.getStringifiedUpdatedTime(), this.title, this.content, this.files);
     }
 
     public long getId() {

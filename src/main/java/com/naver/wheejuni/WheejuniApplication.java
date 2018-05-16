@@ -25,6 +25,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.reactive.config.EnableWebFlux;
 import reactor.core.publisher.Flux;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,7 +54,7 @@ public class WheejuniApplication {
 	}
 
 	@Bean
-	CommandLineRunner bootStrapAccounts(AccountRepository repository, PasswordEncoder passwordEncoder) {
+	CommandLineRunner bootStrapAccounts(AccountRepository repository, PasswordEncoder passwordEncoder, ArticleRepository articleRepository) {
 		return (String... args) -> {
 			String encodedPassword = passwordEncoder.encode("1234");
 			System.out.println(encodedPassword);
@@ -66,6 +67,16 @@ public class WheejuniApplication {
                     .build();
 
 			repository.save(account);
+
+			List<Article> articleList= Stream.of(Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
+					Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
+					Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.A_GROUP).collect(Collectors.toSet())).build(),
+					Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
+					Article.builder().title("hi").userGroups(Stream.of(UserGroups.A_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
+					Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
+					Article.builder().title("hi").userGroups(Stream.of(UserGroups.A_GROUP, UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build()).collect(Collectors.toList());
+
+			articleRepository.saveAll(articleList);
 		};
 	}
 

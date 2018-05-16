@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -42,7 +41,7 @@ public class ArticleRepositoryTest {
         queryGroups.add(UserGroups.A_GROUP);
         queryGroups.add(UserGroups.B_GROUP);
 
-        assertThat(repository.findByUserGroupsIn(queryGroups).size(), is(1));
+        assertThat(repository.findDistinctByUserGroupsIn(queryGroups).size(), is(1));
     }
 
 }

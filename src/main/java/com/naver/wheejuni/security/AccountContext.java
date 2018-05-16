@@ -13,67 +13,36 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Builder
-public class AccountContext implements AccountSecurityContext {
+public class AccountContext extends User {
 
     private String username;
     private Set<UserGroups> groups;
-    private List<UserRole> roles;
     private long userId;
 
+    private AccountContext(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
+    }
+
+    public AccountContext(String username, String password, Collection<? extends GrantedAuthority> authorities, String username1, Set<UserGroups> groups, long userId) {
+        super(username, password, authorities);
+        this.username = username1;
+        this.groups = groups;
+        this.userId = userId;
+    }
+
     public static AccountContext fromDecodedJwtDetails(JwtDetails details) {
-        return AccountContext.builder()
-                .username(details.getUsername())
-                .groups(details.getUserGroups())
-                .roles(details.getRoles())
-                .userId(details.getUserid())
-                .build();
+        return new AccountContext(details.getUsername(), "1234", details.getRoles().stream().map(UserRole::toAuthority).collect(Collectors.toList()), details.getUsername(), details.getUserGroups(), details.getUserid());
     }
 
-    @Override
-    public Set<UserGroups> getUsergroups() {
-        return this.groups;
+    public String getUsername() {
+        return username;
     }
 
-    @Override
-    public long getId() {
-        return this.userId;
+    public Set<UserGroups> getGroups() {
+        return groups;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream().map(r -> new SimpleGrantedAuthority(r.getRoleName())).collect(Collectors.toList());
-    }
-
-    @Override
-    public Object getCredentials() {
-        return this.userId;
-    }
-
-    @Override
-    public Object getDetails() {
-        return null;
-    }
-
-    @Override
-    public Object getPrincipal() {
-        return this;
-    }
-
-    @Override
-    public boolean isAuthenticated() {
-        return !this.roles.isEmpty();
-    }
-
-    @Override
-    public void setAuthenticated(boolean b) throws IllegalArgumentException {
-
-    }
-
-    @Override
-    public String getName() {
-        return this.username;
+    public long getUserId() {
+        return userId;
     }
 }

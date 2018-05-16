@@ -10,7 +10,6 @@ import com.naver.wheejuni.service.specification.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,22 +46,18 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> getByTargetGroups(Set<UserGroups> targetGroups) {
-        return repository.findByUserGroupsIn(targetGroups);
+        return repository.findDistinctByUserGroupsIn(targetGroups);
     }
 
-    @Override
-    public Page<Article> getByTargetGroupsPaged(Set<UserGroups> targetGroups, Pageable pageable) {
-        return null;
-    }
 
     @Override
-    public Article getByArticleId(long id) {
-        return repository.findById(id).orElse(null);
+    public SingleArticle getByArticleId(long id) {
+        return repository.findById(id).orElseThrow(() -> new NoArticleException("ID에 맞는 게시물이 없습니다.")).toDto();
     }
 
     @Override
     public PagedArticles getPagedArticle(ArticleListRequest request, Set<UserGroups> userGroups) {
-        return generatePagedArticle(repository.findByUserGroupsIn(userGroups, request.toPageRequest()));
+        return generatePagedArticle(repository.findDistinctByUserGroupsIn(userGroups, request.toPageRequest()));
     }
 
     private PagedArticles generatePagedArticle(Page<Article> articlePage) {
@@ -73,7 +68,7 @@ public class ArticleServiceImpl implements ArticleService {
     private Function<Article, ArticleListView> articleMappingFunction() {
         return a -> {
             String href = this.articleRoot + a.getId();
-            return ArticleListView.Companion.fromModel(a, href);
+            return ArticleListView.Companion.fromModel(a, String.valueOf(a.getId()));
         };
     }
 }

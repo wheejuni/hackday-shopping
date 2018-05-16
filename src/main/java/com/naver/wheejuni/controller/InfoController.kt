@@ -22,6 +22,6 @@ open class InfoController {
     fun getUserinfo(authentication: Authentication): String {
         val context = authentication as AccountContext
 
-        return context.name
+        return context.username
     }
 }

@@ -12,7 +12,7 @@ import java.util.Set;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    List<Article> findByUserGroupsIn(Set<UserGroups> groups);
+    List<Article> findDistinctByUserGroupsIn(Set<UserGroups> groups);
 
-    Page<Article> findByUserGroupsIn(Set<UserGroups> groups, Pageable pageable);
+    Page<Article> findDistinctByUserGroupsIn(Set<UserGroups> groups, Pageable pageable);
 }

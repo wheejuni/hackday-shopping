@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @MappedSuperclass
 @Data
@@ -22,4 +23,10 @@ public class BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime updatedTime;
+
+    public String getStringifiedUpdatedTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
+        return formatter.format(this.updatedTime);
+    }
 }

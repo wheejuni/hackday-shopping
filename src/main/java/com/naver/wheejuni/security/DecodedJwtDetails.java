@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class DecodedJwtDetails implements JwtDetails {
         return DecodedJwtDetails.builder()
                 .username(jwt.getClaim("USERNAME").asString())
                 .userGroups(new HashSet<UserGroups>(jwt.getClaim("USER_TARGETGROUPS").asList(UserGroups.class)))
-                .roles(jwt.getClaim("USER_ROLE").asList(UserRole.class))
+                .roles(Arrays.asList(UserRole.findRole(jwt.getClaim("USER_ROLE").asString())))
                 .userId(jwt.getClaim("USER_ID").asLong())
                 .build();
     }

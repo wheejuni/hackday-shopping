@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.naver.wheejuni.domain.UserRole;
 import com.naver.wheejuni.exceptions.security.InvalidJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,6 @@ public class JwtDecoder {
 
     public AccountContext decodeJwt(String token) {
         DecodedJWT decodedJWT = isValidToken(token).orElseThrow(() -> new InvalidJwtException("유효한 토큰아 아닙니다."));
-
         return AccountContext.fromDecodedJwtDetails(DecodedJwtDetails.fromDecodedJWT(decodedJWT));
     }
 

@@ -33,6 +33,7 @@ public class JwtAuthorizeFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
+        log.error("process authentication");
         return super.getAuthenticationManager().authenticate(tokenExtractor.extract(req));
     }
 

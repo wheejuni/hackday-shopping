@@ -3,6 +3,7 @@ package com.naver.wheejuni.security.providers;
 import com.naver.wheejuni.security.AccountContext;
 import com.naver.wheejuni.security.JwtDecoder;
 import com.naver.wheejuni.security.tokens.JwtPreAuthorizeToken;
+import com.naver.wheejuni.security.tokens.PostAuthorizeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         JwtPreAuthorizeToken token = (JwtPreAuthorizeToken)authentication;
 
-        return decoder.decodeJwt(token.getToken());
+        AccountContext context = decoder.decodeJwt(token.getToken());
+        return new PostAuthorizeToken(context);
     }
 
     @Override

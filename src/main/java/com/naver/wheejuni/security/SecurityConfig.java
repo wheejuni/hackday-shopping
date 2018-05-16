@@ -121,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected JwtAuthorizeFilter jwtAuthorizeFilter() throws Exception {
-        FilterSkipMatcher matcher = new FilterSkipMatcher(Arrays.asList("/login"), "/api/**");
+        FilterSkipMatcher matcher = new FilterSkipMatcher(Arrays.asList("/login", "/api/info/**", "/api/user/**"), "/api/v1/*");
         JwtAuthorizeFilter filter = new JwtAuthorizeFilter(matcher, tokenExtractor);
         filter.setAuthenticationManager(super.authenticationManagerBean());
 

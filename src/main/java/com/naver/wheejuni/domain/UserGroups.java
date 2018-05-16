@@ -13,9 +13,9 @@ import java.util.Set;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum UserGroups {
 
-    A_GROUP("A", "공지사항 등록만 해도 대박터지는 A그룹"),
-    B_GROUP("B", "공지사항 읽기만해도 클릭이 쏟아지는 B그룹"),
-    C_GROUP("C", "공지사항 수정 안해도 처음부터 잘 써지는 C그룹");
+    A_GROUP("A그룹", "공지사항 등록만 해도 대박터지는 A그룹"),
+    B_GROUP("B그룹", "공지사항 읽기만해도 클릭이 쏟아지는 B그룹"),
+    C_GROUP("C그룹", "공지사항 수정 안해도 처음부터 잘 써지는 C그룹");
 
 
     private String symbol;

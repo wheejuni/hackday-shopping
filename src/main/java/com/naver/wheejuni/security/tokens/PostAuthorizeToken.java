@@ -1,6 +1,7 @@
 package com.naver.wheejuni.security.tokens;
 
 import com.naver.wheejuni.domain.Account;
+import com.naver.wheejuni.security.AccountContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +19,15 @@ public class PostAuthorizeToken extends UsernamePasswordAuthenticationToken {
         this(account, account.getPassword(), authorities);
     }
 
+    public PostAuthorizeToken(AccountContext context) {
+        this(context, context.getPassword(), context.getAuthorities());
+    }
+
     public Account getAccount() {
         return (Account)super.getPrincipal();
+    }
+
+    public AccountContext getContext() {
+        return (AccountContext)super.getPrincipal();
     }
 }
