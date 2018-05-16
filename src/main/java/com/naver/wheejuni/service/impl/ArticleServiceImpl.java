@@ -61,7 +61,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private PagedArticles generatePagedArticle(Page<Article> articlePage) {
-        List<ArticleListView> listViews = articlePage.getContent().stream().map(articleMappingFunction()).collect(Collectors.toList());
+        List<ArticleListView> listViews = articlePage.getContent().stream().map(Article::toListviewDto).collect(Collectors.toList());
         return new PagedArticles(articlePage.getNumber(), articlePage.getTotalPages(), listViews);
     }
 

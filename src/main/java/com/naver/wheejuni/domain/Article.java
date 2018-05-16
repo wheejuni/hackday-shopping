@@ -2,6 +2,7 @@ package com.naver.wheejuni.domain;
 
 import com.google.common.collect.Lists;
 import com.naver.wheejuni.domain.events.article.NewArticleEvent;
+import com.naver.wheejuni.dto.article.ArticleListView;
 import com.naver.wheejuni.dto.article.ArticleUpdateRequest;
 import com.naver.wheejuni.dto.article.NewArticleDto;
 import com.naver.wheejuni.dto.article.SingleArticle;
@@ -44,9 +45,8 @@ public class Article extends BaseEntity{
     @JoinColumn(name = "AUTHOR_ACC_ID")
     private Account account;
 
-    @ElementCollection(targetClass = UserGroups.class, fetch = FetchType.EAGER)
     @Enumerated(value = EnumType.STRING)
-    private Set<UserGroups> userGroups;
+    private UserGroups userGroups;
 
     public Article updateArticle(ArticleUpdateRequest request) {
         this.title = request.getTitle();
@@ -56,8 +56,12 @@ public class Article extends BaseEntity{
         return this;
     }
 
+    public ArticleListView toListviewDto() {
+        return new ArticleListView(this.title, this.getGroupSymbol(), String.valueOf(this.id));
+    }
+
     public SingleArticle toDto() {
-        return new SingleArticle(this.id, super.getStringifiedUpdatedTime(), this.title, this.content, this.files);
+        return new SingleArticle(this.id, super.getStringifiedUpdatedTime(), this.title, this.content, getGroupSymbol(), this.files);
     }
 
     public long getId() {
@@ -80,7 +84,7 @@ public class Article extends BaseEntity{
         return account;
     }
 
-    public Set<UserGroups> getUserGroups() {
+    public UserGroups getUserGroups() {
         return userGroups;
     }
 
@@ -96,6 +100,10 @@ public class Article extends BaseEntity{
                 .userGroups(UserGroups.findMatchingGroupSingle(dto.getGroups()))
                 .files(mapRequestToFiles(dto))
                 .build();
+    }
+
+    private String getGroupSymbol() {
+        return userGroups.getSymbol();
     }
 
     private static List<File> mapRequestToFiles(NewArticleDto dto) {

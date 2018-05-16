@@ -17,5 +17,8 @@ data class SingleArticle(
         @field:JsonProperty("content")
         val content: String? = null,
 
+        @field:JsonProperty("group")
+        val group: String? = null,
+
         @field:JsonProperty("files")
         val files: MutableList<File>? = null)

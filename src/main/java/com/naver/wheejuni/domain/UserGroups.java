@@ -34,11 +34,8 @@ public enum UserGroups {
         return this.name();
     }
 
-    public static Set<UserGroups> findMatchingGroupSingle(String query) {
-        Set<UserGroups> returnGroup = Sets.newHashSet();
-        Arrays.stream(UserGroups.values()).filter(g -> g.isCorrectName(query)).forEach(returnGroup::add);
-
-        return returnGroup;
+    public static UserGroups findMatchingGroupSingle(String query) {
+        return Arrays.stream(UserGroups.values()).filter(g -> g.isCorrectName(query)).findFirst().orElseThrow(() -> new NoSuchElementException("올바른 그룹명이 아닙니다."));
     }
 
     public static Set<UserGroups> findMatchingGroups(Set<String> queries) {

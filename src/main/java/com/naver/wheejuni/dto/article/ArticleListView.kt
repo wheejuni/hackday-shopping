@@ -8,6 +8,9 @@ data class ArticleListView(
         @field:JsonProperty("title")
         val title: String? = null,
 
+        @field:JsonProperty("group")
+        val group: String? = null,
+
         @field:JsonProperty("href")
         val link: String? = null) {
 

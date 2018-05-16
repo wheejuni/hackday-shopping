@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 public class ArticleEvent extends ApplicationEvent {
 
-    private Set<UserGroups> targetGroups;
+    private UserGroups targetGroups;
     private String title;
     private long articleId;
     private NotificationTypes notificationTypes;

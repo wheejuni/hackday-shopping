@@ -29,7 +29,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendNotification(NewArticleEvent event) {
         Notification notification = Notification.fromArticleEvent(event, uuidGenerator.generateUUID());
 
-        List<UserNotificationInbox> processedInboxes = repository.findByMatchingGroups(event.getTargetGroups()).stream().map(inbox -> inbox.addNotification(notification)).collect(Collectors.toList());
+        List<UserNotificationInbox> processedInboxes = repository.findByListeningGroupsContains(event.getTargetGroups()).stream().map(inbox -> inbox.addNotification(notification)).collect(Collectors.toList());
         repository.saveAll(processedInboxes);
     }
 

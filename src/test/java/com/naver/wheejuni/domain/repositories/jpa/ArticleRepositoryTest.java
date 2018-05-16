@@ -31,7 +31,7 @@ public class ArticleRepositoryTest {
 
         Flux.just(UserGroups.B_GROUP, UserGroups.C_GROUP).subscribe(testGroups::add);
 
-        Article article = Article.builder().title("test article").content("hi this is test.").userGroups(testGroups).build();
+        Article article = Article.builder().title("test article").content("hi this is test.").userGroups(UserGroups.B_GROUP).build();
         repository.save(article);
     }
 

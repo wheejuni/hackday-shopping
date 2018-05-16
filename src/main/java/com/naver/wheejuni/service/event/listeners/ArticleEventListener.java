@@ -22,6 +22,8 @@ public class ArticleEventListener implements ApplicationListener<ArticleEvent> {
 
         if(event instanceof NewArticleEvent) {
             notificationService.sendNotification((NewArticleEvent)event);
+            return;
         }
+
     }
 }

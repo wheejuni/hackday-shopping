@@ -17,4 +17,7 @@ public interface UserNotificationInboxRepository extends MongoRepository<UserNot
 
     @Query(value = "{listeningGroups: {$in: ?0}}")
     List<UserNotificationInbox> findByMatchingGroups(Set<UserGroups> groups);
+
+    @Query(value = "{listeningGroups: ?0}")
+    List<UserNotificationInbox> findByListeningGroupsContains(UserGroups groups);
 }

@@ -35,13 +35,8 @@ public class WheejuniApplication {
 	}
 
 	@Bean
-	CommandLineRunner getData(ArticleRepository articleRepository, UserNotificationInboxRepository inboxRepository) {
+	CommandLineRunner getData(UserNotificationInboxRepository inboxRepository) {
 		return args -> {
-			Set<UserGroups> targetGroups = Sets.newHashSet();
-			Arrays.stream(UserGroups.values()).forEach(targetGroups::add);
-
-			articleRepository.save(Article.builder().title("hey").userGroups(targetGroups).content("hi").build());
-
 
 			UserNotificationInbox inbox = new UserNotificationInbox();
 
@@ -55,7 +50,7 @@ public class WheejuniApplication {
 	}
 
 	@Bean
-	CommandLineRunner bootStrapAccounts(AccountRepository repository, PasswordEncoder passwordEncoder, ArticleRepository articleRepository) {
+	CommandLineRunner bootStrapAccountsandArticles(AccountRepository repository, PasswordEncoder passwordEncoder, ArticleRepository articleRepository) {
 		return (String... args) -> {
 			String encodedPassword = passwordEncoder.encode("1234");
 			System.out.println(encodedPassword);
@@ -69,13 +64,9 @@ public class WheejuniApplication {
 
 			repository.save(account);
 
-			List<Article> articleList= Stream.of(Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
-					Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
-					Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.A_GROUP).collect(Collectors.toSet())).build(),
-					Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
-					Article.builder().title("hi").userGroups(Stream.of(UserGroups.A_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
-					Article.builder().title("hi").userGroups(Stream.of(UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build(),
-					Article.builder().title("hi").userGroups(Stream.of(UserGroups.A_GROUP, UserGroups.B_GROUP, UserGroups.C_GROUP).collect(Collectors.toSet())).build()).collect(Collectors.toList());
+			List<Article> articleList= Stream.of(Article.builder().title("hi").userGroups(UserGroups.C_GROUP).build(),
+					Article.builder().title("hi").userGroups(UserGroups.B_GROUP).build(),
+					Article.builder().title("test article").userGroups(UserGroups.A_GROUP).build()).collect(Collectors.toList());
 
 			articleRepository.saveAll(articleList);
 		};
