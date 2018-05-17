@@ -1,0 +1,10 @@
+POST http://adm-api.wheejuni.com/api/upload/file
+Content-Type: multipart/form-data; boundary="fileupload"
+
+--fileupload
+Content-Disposition: form-data; name="files"; filename="hackathon-instance-access.csv"
+
+< /Users/wheejuni/Desktop/hackathon-instance-access.csv
+--fileupload
+
+###

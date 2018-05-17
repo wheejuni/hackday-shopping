@@ -65,6 +65,7 @@ public class FileServiceImpl implements FileService {
 
         StringBuilder generatedFilename = new StringBuilder(FILE_ROOT_DIRECTORY);
         generatedFilename.append("/");
+        generatedFilename.append("files/");
         generatedFilename.append(filename);
         generatedFilename.append(".");
         generatedFilename.append(extension);
