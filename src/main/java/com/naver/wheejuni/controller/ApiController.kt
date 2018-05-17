@@ -2,6 +2,7 @@ package com.naver.wheejuni.controller
 
 import com.naver.wheejuni.domain.Article
 import com.naver.wheejuni.domain.UserNotificationInbox
+import com.naver.wheejuni.domain.repositories.jpa.AccountRepository
 import com.naver.wheejuni.domain.repositories.mongo.UserNotificationInboxRepository
 import com.naver.wheejuni.dto.article.ArticleListRequest
 import com.naver.wheejuni.dto.article.NewArticleDto
@@ -25,7 +26,7 @@ import java.util.stream.Stream
 
 @RestController
 @RequestMapping("/api/v1")
-open class ApiController(private val articleService: ArticleService, val notificationInboxRepository: UserNotificationInboxRepository) {
+open class ApiController(private val articleService: ArticleService, val accountRepository: AccountRepository, val notificationInboxRepository: UserNotificationInboxRepository) {
 
     private val log: Logger = LoggerFactory.getLogger(ApiController::class.java)
 
@@ -41,14 +42,21 @@ open class ApiController(private val articleService: ArticleService, val notific
     }
 
     @PostMapping("/article")
-    open fun postArticle(@RequestBody dto:NewArticleDto): Article {
-        println(dto.groups)
-        return articleService.saveNewArticle(dto)
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    open fun postArticle(@RequestBody dto:NewArticleDto, authentication: Authentication): Article {
+        val token = authentication as PostAuthorizeToken
+        val account = accountRepository.findById(token.context.userId).get()
+
+        return articleService.saveNewArticle(dto, account)
     }
 
     @GetMapping("/article")
-    open fun getArticle(@RequestParam("id") id: String): SingleArticle {
-        return articleService.getByArticleId(id.toLong())
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    open fun getArticle(@RequestParam("id") id: String, authentication: Authentication): SingleArticle {
+        val token = authentication as PostAuthorizeToken
+        val account = token.context.userId
+
+        return articleService.getByArticleIdEditable(id.toLong(), accountRepository.findById(account).get())
     }
 
     @PostMapping("/articlelist")

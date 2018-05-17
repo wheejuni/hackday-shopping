@@ -1,6 +1,6 @@
 POST http://localhost:8080/api/v1/article
 Content-Type: application/json;utf8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVU0VSX1RBUkdFVEdST1VQUyI6WyJDX0dST1VQIiwiQl9HUk9VUCJdLCJVU0VSTkFNRSI6IuydtOunkOuFhCIsIlVTRVJfSUQiOjIsIlVTRVJfUk9MRSI6IlJPTEVfQURNSU4ifQ.OehkUaWFnwoaDaH_PiECUTXcDN1Px5DwsD-BFgnqdWg
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVU0VSX1RBUkdFVEdST1VQUyI6WyJCX0dST1VQIiwiQ19HUk9VUCJdLCJVU0VSTkFNRSI6IuydtOunkOuFhCIsIlVTRVJfSUQiOjEsIlVTRVJfUk9MRSI6IlJPTEVfVVNFUiJ9.Bfq7A3d_-twc4YnoMNO3NBVflojkzIiWrZ5xNRcrS38
 
 {"title": "알림 겁나 잘 들어가네요?", "content": "으흠. 이게 왜 안되는건지..... 조금 다른 내용으로.", "targetGroups": "A_GROUP", "fileHref": [{"originalFileName": "printboard-cicd-cred.csv", "encodedFileName": "/Users/wheejuni/Documents/testfiles/b37e0793-f051-45d1-b5bc-5bf325b0ff88.csv"}]}
 

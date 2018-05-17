@@ -5,6 +5,9 @@ import com.naver.wheejuni.domain.File
 
 data class SingleArticle(
 
+        @field:JsonProperty("editable")
+        var edit: Boolean = false,
+
         @field:JsonProperty("articleId")
         val id: Long? = null,
 

@@ -61,7 +61,7 @@ public class Article extends BaseEntity{
     }
 
     public SingleArticle toDto() {
-        return new SingleArticle(this.id, super.getStringifiedUpdatedTime(), this.title, this.content, getGroupSymbol(), this.files);
+        return new SingleArticle(false, this.id, super.getStringifiedUpdatedTime(), this.title, this.content, getGroupSymbol(), this.files);
     }
 
     public long getId() {

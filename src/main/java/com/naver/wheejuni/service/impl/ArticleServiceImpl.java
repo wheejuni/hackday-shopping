@@ -1,5 +1,6 @@
 package com.naver.wheejuni.service.impl;
 
+import com.naver.wheejuni.domain.Account;
 import com.naver.wheejuni.domain.Article;
 import com.naver.wheejuni.domain.UserGroups;
 import com.naver.wheejuni.domain.repositories.jpa.ArticleRepository;
@@ -34,6 +35,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public Article saveNewArticle(NewArticleDto dto, Account account) {
+        Article article = Article.fromDto(dto);
+
+        article.setAccount(account);
+        return repository.save(article);
+    }
+
+    @Override
     @Transactional
     public Optional<Article> updateArticle(ArticleUpdateRequest request) {
         if(request.getUpdateRequestTypes() == UpdateRequestTypes.DELETE) {
@@ -53,6 +62,15 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public SingleArticle getByArticleId(long id) {
         return repository.findById(id).orElseThrow(() -> new NoArticleException("ID에 맞는 게시물이 없습니다.")).toDto();
+    }
+
+    @Override
+    public SingleArticle getByArticleIdEditable(long id, Account account) {
+        Article article = repository.findById(id).orElseThrow(() -> new NoArticleException("ID에 맞는 게시물이 없습니다."));
+        SingleArticle dto = article.toDto();
+        dto.setEdit(article.getAccount().getId() == account.getId());
+
+        return dto;
     }
 
     @Override
