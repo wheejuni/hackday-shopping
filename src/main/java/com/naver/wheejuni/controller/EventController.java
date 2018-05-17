@@ -41,5 +41,8 @@ public class EventController {
         return Flux.zip(stringFlux, time).map(Tuple2::getT1);
     }
 
-
+    @GetMapping("/staticevent/{id}")
+    public UserNotificationInbox getStaticInbox(@PathVariable long id) {
+        return repository.findById(id);
+    }
 }
