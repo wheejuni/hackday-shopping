@@ -74,8 +74,8 @@ public class UserNotificationInbox {
         return this;
     }
 
-    public UserNotificationInbox setNotificationsRead(List<Long> notificationIds) {
-        notificationIds.stream().forEach(i -> this.notifications.stream().filter(n -> n.isMatchingId(i)).findFirst().orElseThrow(() -> new NoSuchElementException("저장된 알림이 없습니다.")).setRead());
+    public UserNotificationInbox setNotificationsRead(List<String> notificationIds) {
+        notificationIds.stream().forEach(i -> this.notifications.stream().filter(n -> n.isMatchingId(Long.parseLong(i))).findFirst().orElseThrow(() -> new NoSuchElementException("저장된 알림이 없습니다.")).setRead());
 
         return this;
     }

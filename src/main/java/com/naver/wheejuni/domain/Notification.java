@@ -1,5 +1,6 @@
 package com.naver.wheejuni.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.naver.wheejuni.domain.events.article.ArticleEvent;
 import lombok.*;
@@ -10,7 +11,7 @@ import lombok.*;
 @Builder
 public class Notification {
 
-    @JsonProperty("NOTIFICATION_ID")
+    @JsonIgnore
     private long id;
 
     @JsonProperty("NOTIFICATION_ARTICLE_TITLE")
@@ -29,6 +30,11 @@ public class Notification {
                 .types(event.getNotificationTypes())
                 .read(false)
                 .build();
+    }
+
+    @JsonProperty("NOTIFICATION_ID")
+    public String getStringifiedId() {
+        return String.valueOf(this.id);
     }
 
     @JsonProperty("message")

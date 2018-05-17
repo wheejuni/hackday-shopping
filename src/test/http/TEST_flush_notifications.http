@@ -1,6 +1,6 @@
-POST http://localhost:8080/api/event/flush/1
+POST http://adm-api.wheejuni.com/api/event/flush/1
 Content-Type: application/json
 
-[7394881290750412851]
+[-6868607143368899502, 4510746753016875123]
 
 ###

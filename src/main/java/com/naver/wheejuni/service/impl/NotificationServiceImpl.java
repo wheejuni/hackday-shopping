@@ -34,7 +34,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void setNotificationsRead(long accountid, List<Long> notificationId) {
+    public void setNotificationsRead(long accountid, List<String> notificationId) {
         UserNotificationInbox inbox = repository.findById(accountid);
         inbox.setNotificationsRead(notificationId);
 

@@ -12,6 +12,6 @@ public interface NotificationService {
 
     void sendNotification(NewArticleEvent event);
 
-    void setNotificationsRead(long accountId, List<Long> notificationId);
+    void setNotificationsRead(long accountId, List<String> notificationId);
 
 }

@@ -45,7 +45,7 @@ public class EventController {
     }
 
     @PostMapping("/flush/{id}")
-    public void flushNotifications(@PathVariable long id, @RequestBody List<Long> notificationIds) {
+    public void flushNotifications(@PathVariable long id, @RequestBody List<String> notificationIds) {
         service.setNotificationsRead(id, notificationIds);
     }
 }
