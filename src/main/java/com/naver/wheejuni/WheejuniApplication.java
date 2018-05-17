@@ -70,12 +70,6 @@ public class WheejuniApplication {
                     .build();
 
 			repository.save(account);
-
-			List<Article> articleList= Stream.of(Article.builder().title("hi").userGroups(UserGroups.C_GROUP).build(),
-					Article.builder().title("hi").userGroups(UserGroups.B_GROUP).build(),
-					Article.builder().title("test article").userGroups(UserGroups.A_GROUP).build()).collect(Collectors.toList());
-
-			articleRepository.saveAll(articleList);
 		};
 	}
 
