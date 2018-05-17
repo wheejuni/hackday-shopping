@@ -31,8 +31,14 @@ import java.util.stream.Stream;
 @EnableMongoRepositories(basePackages = "com.naver.wheejuni.domain.repositories.mongo")
 public class WheejuniApplication {
 
+	public static final String APPLICATION_LOCATIONS = "spring.config.location="
+			+ "classpath:application.yml,"
+			+ "/source/config/application-prod.yml";
+
 	public static void main(String[] args) {
-		SpringApplication.run(WheejuniApplication.class, args);
+		new SpringApplicationBuilder(WheejuniApplication.class)
+				.properties(APPLICATION_LOCATIONS)
+				.run(args);
 	}
 
 	@Bean
