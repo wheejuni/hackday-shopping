@@ -50,7 +50,7 @@ public class NotificationServiceTest {
 
     @Test
     public void notificationService_checkRead() {
-        notificationService.setNotificationsRead(1L, Arrays.asList(1L));
+        notificationService.setNotificationsRead(1L, Arrays.asList("1"));
 
         assertThat(repository.findById(1L).getUnreadNotificationsCount(), is(0L));
     }
