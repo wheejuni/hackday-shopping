@@ -33,7 +33,7 @@ public class UserGroupsTest {
 
     @Test
     public void groups_serializeTest() throws JsonProcessingException{
-        assertThat(new ObjectMapper().writeValueAsString(this.testGroup), is("{\"symbol\":\"C\",\"description\":\"공지사항 수정 안해도 처음부터 잘 써지는 C그룹\",\"type\":\"C_GROUP\"}"));
+        assertThat(new ObjectMapper().writeValueAsString(this.testGroup), is("{\"symbol\":\"C그룹\",\"description\":\"공지사항 수정 안해도 처음부터 잘 써지는 C그룹\",\"type\":\"C_GROUP\"}"));
     }
 
     @Test

@@ -41,7 +41,7 @@ public class ArticleRepositoryTest {
         queryGroups.add(UserGroups.A_GROUP);
         queryGroups.add(UserGroups.B_GROUP);
 
-        assertThat(repository.findDistinctByUserGroupsIn(queryGroups).size(), is(1));
+        assertThat(repository.findDistinctByUserGroupsIn(queryGroups).size(), is(3));
     }
 
 }

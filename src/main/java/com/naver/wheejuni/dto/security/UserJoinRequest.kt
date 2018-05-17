@@ -6,6 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder
 
 data class UserJoinRequest(
 
+        @field:JsonProperty("name")
+        val name: String? = null,
+
         @field:JsonProperty("id")
         val id: String? = null,
 

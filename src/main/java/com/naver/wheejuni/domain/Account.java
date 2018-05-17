@@ -42,7 +42,8 @@ public class Account {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
-    private Account(String userId, String password, Set<UserGroups> userGroups, UserRole role) {
+    private Account(String name, String userId, String password, Set<UserGroups> userGroups, UserRole role) {
+        this.name = name;
         this.userId = userId;
         this.password = password;
         this.userGroups = userGroups;
@@ -54,7 +55,7 @@ public class Account {
     }
 
     public static Account fromRequest(UserJoinRequest req, PasswordEncoder passwordEncoder) {
-        return new Account(req.getId(), passwordEncoder.encode(req.getPassword()), UserGroups.findMatchingGroups(req.getGroups()), UserRole.USER);
+        return new Account(req.getName(), req.getId(), passwordEncoder.encode(req.getPassword()), UserGroups.findMatchingGroups(req.getGroups()), UserRole.USER);
     }
 
     public long getId() {

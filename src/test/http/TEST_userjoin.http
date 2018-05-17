@@ -1,0 +1,6 @@
+POST http://localhost:8080/api/user/join
+Content-Type: application/json;utf8
+
+{"name" : "배지원", "id" : "chloebae", "password": "1234", "selectedGroups" : ["B_GROUP", "C_GROUP"]}
+
+###
