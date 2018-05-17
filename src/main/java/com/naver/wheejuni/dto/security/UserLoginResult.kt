@@ -5,6 +5,9 @@ import com.naver.wheejuni.domain.UserGroups
 import com.naver.wheejuni.security.tokens.PostAuthorizeToken
 
 data class UserLoginResult(
+        @field:JsonProperty("userid")
+        val id: Long? = null,
+
         @field:JsonProperty("username")
         val name: String? = null,
 
@@ -17,7 +20,7 @@ data class UserLoginResult(
         companion object {
             fun fromToken(token: PostAuthorizeToken, jwt:String): UserLoginResult {
                 val account = token.account
-                return UserLoginResult(name = account.name, groups = account.userGroups, token = jwt)
+                return UserLoginResult(id = account.id, name = account.name, groups = account.userGroups, token = jwt)
             }
         }
 }
