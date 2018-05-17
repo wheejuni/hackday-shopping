@@ -1,6 +1,7 @@
 package com.naver.wheejuni.controller
 
 import com.naver.wheejuni.domain.Article
+import com.naver.wheejuni.domain.UserNotificationInbox
 import com.naver.wheejuni.domain.repositories.mongo.UserNotificationInboxRepository
 import com.naver.wheejuni.dto.article.ArticleListRequest
 import com.naver.wheejuni.dto.article.NewArticleDto
@@ -16,11 +17,15 @@ import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
+import reactor.util.function.Tuple2
 import java.security.Principal
+import java.time.Duration
+import java.util.stream.Stream
 
 @RestController
 @RequestMapping("/api/v1")
-open class ApiController(private val articleService: ArticleService) {
+open class ApiController(private val articleService: ArticleService, val notificationInboxRepository: UserNotificationInboxRepository) {
 
     private val log: Logger = LoggerFactory.getLogger(ApiController::class.java)
 
@@ -58,4 +63,5 @@ open class ApiController(private val articleService: ArticleService) {
     open fun getArticleList(@RequestParam(value = "size")size: Long, @RequestParam("currentPage")page: Long) {
         log.error("parsed query string size : {}, page : {}", size, page)
     }
+
 }
