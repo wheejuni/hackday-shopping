@@ -12,11 +12,5 @@ data class ArticleUpdateRequest(
         @field:JsonProperty("requestType")
         val updateRequestTypes: UpdateRequestTypes = UpdateRequestTypes.UPDATE,
 
-        @field:JsonProperty("newTitle")
-        val title: String? = null,
-
         @field:JsonProperty("content")
-        val content: String? = null,
-
-        @field:JsonProperty("attachedFile")
-        val file: MutableList<FileUploadResult>? = null)
+        val content: String? = null)

@@ -4,10 +4,7 @@ import com.naver.wheejuni.domain.Article
 import com.naver.wheejuni.domain.UserNotificationInbox
 import com.naver.wheejuni.domain.repositories.jpa.AccountRepository
 import com.naver.wheejuni.domain.repositories.mongo.UserNotificationInboxRepository
-import com.naver.wheejuni.dto.article.ArticleListRequest
-import com.naver.wheejuni.dto.article.NewArticleDto
-import com.naver.wheejuni.dto.article.PagedArticles
-import com.naver.wheejuni.dto.article.SingleArticle
+import com.naver.wheejuni.dto.article.*
 import com.naver.wheejuni.security.AccountContext
 import com.naver.wheejuni.security.tokens.PostAuthorizeToken
 import com.naver.wheejuni.service.specification.ArticleService
@@ -57,6 +54,12 @@ open class ApiController(private val articleService: ArticleService, val account
         val account = token.context.userId
 
         return articleService.getByArticleIdEditable(id.toLong(), accountRepository.findById(account).get())
+    }
+
+    @PostMapping("/article/update")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    open fun updateArticle(@RequestBody request:ArticleUpdateRequest) {
+        articleService.updateArticle(request)
     }
 
     @PostMapping("/articlelist")

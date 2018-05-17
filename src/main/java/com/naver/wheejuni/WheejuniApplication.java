@@ -42,21 +42,6 @@ public class WheejuniApplication {
 	}
 
 	@Bean
-	CommandLineRunner getData(UserNotificationInboxRepository inboxRepository) {
-		return args -> {
-
-			UserNotificationInbox inbox = new UserNotificationInbox();
-
-			inbox.setId(1L);
-			inbox.setListeningGroups(Arrays.stream(UserGroups.values()).collect(Collectors.toList()));
-
-			inboxRepository.deleteAll();
-			inboxRepository.save(inbox);
-
-		};
-	}
-
-	@Bean
 	CommandLineRunner bootStrapAccountsandArticles(AccountRepository repository, PasswordEncoder passwordEncoder, ArticleRepository articleRepository) {
 		return (String... args) -> {
 			String encodedPassword = passwordEncoder.encode("1234");

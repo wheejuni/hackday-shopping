@@ -49,9 +49,7 @@ public class Article extends BaseEntity{
     private UserGroups userGroups;
 
     public Article updateArticle(ArticleUpdateRequest request) {
-        this.title = request.getTitle();
         this.content = request.getContent();
-        this.files = request.getFile().stream().map(r -> r.toModel()).collect(Collectors.toList());
 
         return this;
     }
