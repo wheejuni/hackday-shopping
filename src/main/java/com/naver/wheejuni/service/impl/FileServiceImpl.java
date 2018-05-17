@@ -52,7 +52,7 @@ public class FileServiceImpl implements FileService {
             }
             targetFile.createNewFile();
             Files.write(file.getBytes(), targetFile);
-            return new FileUploadResult(file.getOriginalFilename(), generatedFilename);
+            return new FileUploadResult(file.getOriginalFilename(), generatedFilename.substring(8, generatedFilename.length()));
         } catch (IOException e) {
             throw new FileProcessingException("파일 처리중 에러가 발생하였습니다.", e);
         }
