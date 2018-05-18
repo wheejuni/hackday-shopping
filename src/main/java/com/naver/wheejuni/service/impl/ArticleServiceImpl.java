@@ -61,7 +61,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public SingleArticle getByArticleId(long id) {
-        return repository.findById(id).orElseThrow(() -> new NoArticleException("ID에 맞는 게시물이 없습니다.")).toDto();
+        Article article = repository.findById(id).orElseThrow(() -> new NoArticleException("ID에 맞는 게시물이 없습니다."));
+
+        return article.toDto();
     }
 
     @Override

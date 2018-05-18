@@ -12,8 +12,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @Embeddable
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public class File implements Serializable {
+public class File {
 
     private String path;
     private String storeFilePath;

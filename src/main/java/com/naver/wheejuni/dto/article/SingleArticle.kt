@@ -24,4 +24,4 @@ data class SingleArticle(
         val group: String? = null,
 
         @field:JsonProperty("files")
-        val files: MutableList<File>? = null)
+        val files: MutableSet<File>? = null)

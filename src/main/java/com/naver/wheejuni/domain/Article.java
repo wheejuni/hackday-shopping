@@ -1,6 +1,8 @@
 package com.naver.wheejuni.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.naver.wheejuni.domain.events.article.NewArticleEvent;
 import com.naver.wheejuni.dto.article.ArticleListView;
 import com.naver.wheejuni.dto.article.ArticleUpdateRequest;
@@ -39,10 +41,11 @@ public class Article extends BaseEntity{
     @Column(name = "ARTICLE_FILEID")
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "FILES", joinColumns = @JoinColumn(name = "ARTICLE_ID"))
-    private List<File> files;
+    private Set<File> files;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "AUTHOR_ACC_ID")
+    @JsonIgnore
     private Account account;
 
     @Enumerated(value = EnumType.STRING)
@@ -74,7 +77,7 @@ public class Article extends BaseEntity{
         return content;
     }
 
-    public List<File> getFiles() {
+    public Set<File> getFiles() {
         return files;
     }
 
@@ -104,11 +107,11 @@ public class Article extends BaseEntity{
         return userGroups.getSymbol();
     }
 
-    private static List<File> mapRequestToFiles(NewArticleDto dto) {
+    private static Set<File> mapRequestToFiles(NewArticleDto dto) {
         if(dto.getFile() == null) {
-            return Lists.newArrayList();
+            return Sets.newHashSet();
         }
-        return dto.getFile().stream().map(FileUploadResult::toModel).collect(Collectors.toList());
+        return dto.getFile().stream().map(FileUploadResult::toModel).collect(Collectors.toSet());
     }
 
 }
